@@ -1,0 +1,25 @@
+{
+  "name": "get-html-glitch-app",
+  "version": "0.0.1",
+  "description": "Get HTML",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "node-fetch": "^2.1.1",
+    "cors": "^2.8.4"
+  },
+  "engines": {
+    "node": "9.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/get-html-glitch-app"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
