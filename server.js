@@ -16,7 +16,8 @@ app.get('/', (request, response) => {
 app.get('/dreams', (request, response) => {
   let urls = null;
   try {
-    urls = [decodeURIComponent(request.query.url1), decodeURIComponent(request.query.url2), decodeURIComponent(request.query.url3), decodeURIComponent(request.query.url4), decodeURIComponent(request.query.url5)];
+    // urls = [decodeURIComponent(request.query.url1), decodeURIComponent(request.query.url2), decodeURIComponent(request.query.url3), decodeURIComponent(request.query.url4), decodeURIComponent(request.query.url5)];
+    urls = [decodeURIComponent(request.query.url1), decodeURIComponent(request.query.url2), decodeURIComponent(request.query.url3), decodeURIComponent(request.query.url4)];
   } catch (err) {
     console.error(err);
     response.send(err);
@@ -24,7 +25,8 @@ app.get('/dreams', (request, response) => {
   }
   Promise.all(urls.map(url => fetch(url).then(resp => resp.text())))
     .then((texts) => {
-      response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3], url5: texts[4] }));
+      // response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3], url5: texts[4] }));
+      response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3] }));
     }).catch((err) => {
       console.error(err);
       response.send(err);
