@@ -1,6 +1,8 @@
 const express = require('express');
-const fetch = require('node-fetch');
 const cors = require('cors');
+const fetch = require('node-fetch');
+const cheerio = require('cheerio');
+const parserHtml = require('./src/parser-html');
 
 const app = express();
 app.use(cors());
@@ -27,6 +29,21 @@ app.get('/dreams', (request, response) => {
     .then((texts) => {
       // response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3], url5: texts[4] }));
       response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3] }));
+    }).catch((err) => {
+      console.error(err);
+      response.send(err);
+    });
+});
+
+app.get('/dreams-gogo', (request, response) => {
+  let urls = ['http://www.raqualia.co.jp/', 'http://askat-inc.com/japanese/news/', 'http://www.aratana.com/news/', 'https://ir.syros.com/press-releases'];
+  Promise.all(urls.map(url => fetch(url).then(resp => resp.text())))
+    .then((texts) => {
+    const raqualia = parserHtml.raqualia(texts[0]);
+    const askat = parserHtml.askat(texts[1]);
+    const aratana = parserHtml.aratana(texts[2]);
+    const syros = parserHtml.syros(texts[3]);
+    response.json(JSON.stringify({ raqualia, askat, aratana, syros }));
     }).catch((err) => {
       console.error(err);
       response.send(err);
