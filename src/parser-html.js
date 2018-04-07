@@ -17,8 +17,8 @@ module.exports.raqualia = function (data) {
   }
   const $c = cheerio.load(data);
   const dl = $c("div[class='box'] dl");
-  return { press: twoParse(dl[0], ''), news: twoParse(dl[1], 'http://www.raqualia.co.jp/') };
-}
+  return { press: twoParse(dl[0], ''), news: twoParse(dl[1], '') };
+};
 
 module.exports.askat = function (data) {
   const result = [];
@@ -33,7 +33,7 @@ module.exports.askat = function (data) {
     if (i >= 4) break;
   }
   return result;
-}
+};
 
 module.exports.aratana = function (data) {
   const result = [];
@@ -48,7 +48,7 @@ module.exports.aratana = function (data) {
     if (i >= 4) break;
   }
   return result;
-}
+};
 
 // function parserHtmlSyros(dataNews, dataEvents) {
 module.exports.syros = function (dataNews) {
@@ -58,7 +58,7 @@ module.exports.syros = function (dataNews) {
   for (let i = 0; i < divNews.length; i += 1) {
     resulNews.push({
       date: divNews[i].children[1].children[0].children[0].data,
-      title: divNews[i].children[3].children[1].children[0].data,
+      title: divNews[i].children[3].children[1].children[0].data.trim(),
       url: divNews[i].children[3].children[1].attribs.href,
     });
     if (i >= 4) break;
@@ -70,7 +70,7 @@ module.exports.syros = function (dataNews) {
   for (let i = 0; i < divEvents.length; i += 1) {
     resulEvents.push({
       date: divEvents[i].children[1].children[0].data,
-      title: divEvents[i].children[4].children[0].children[0].data,
+      title: divEvents[i].children[4].children[0].children[0].data.trim(),
       url: divEvents[i].children[4].children[0].attribs.href,
     });
     if (i >= 4) break;
@@ -78,4 +78,4 @@ module.exports.syros = function (dataNews) {
   */
   // return { news: resulNews, events: resulEvents };
   return resulNews;
-}
+};
