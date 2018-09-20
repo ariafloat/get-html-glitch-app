@@ -36,14 +36,16 @@ app.get('/dreams', (request, response) => {
 });
 
 app.get('/dreams-gogo', (request, response) => {
-  let urls = ['http://www.raqualia.co.jp/', 'http://askat-inc.com/japanese/news/', 'http://www.aratana.com/news/', 'https://ir.syros.com/press-releases'];
+  let urls = ['https://www.raqualia.co.jp/', 'http://askat-inc.com/japanese/news/', 'http://www.aratana.com/news/', 'https://ir.syros.com/press-releases'];
   Promise.all(urls.map(url => fetch(url).then(resp => resp.text())))
     .then((texts) => {
-    const raqualia = parserHtml.raqualia(texts[0]);
-    const askat = parserHtml.askat(texts[1]);
-    const aratana = parserHtml.aratana(texts[2]);
-    const syros = parserHtml.syros(texts[3]);
-    response.json(JSON.stringify({ raqualia, askat, aratana, syros }));
+      const raqualiaPromise = parserHtml.raqualia(texts[0]);
+      raqualiaPromise.then((raqualia) => {
+        const askat = parserHtml.askat(texts[1]);
+        const aratana = parserHtml.aratana(texts[2]);
+        const syros = parserHtml.syros(texts[3]);
+        response.json(JSON.stringify({ raqualia, askat, aratana, syros }));
+      }).catch(console.error);
     }).catch((err) => {
       console.error(err);
       response.send(err);
