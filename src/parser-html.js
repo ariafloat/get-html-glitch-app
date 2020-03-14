@@ -44,22 +44,6 @@ module.exports.askat = function (data) {
   return result;
 };
 
-module.exports.aratana = function (data) {
-  const result = [];
-  const $c = cheerio.load(data);
-  const header = $c("div[class='news-blocks'] header[class=entry-header]");
-  for (let i = 0; i < header.length; i += 1) {
-    result.push({
-      date: header[i].children[5].children[1].children[0].data,
-      title: header[i].children[3].children[0].children[0].data,
-      url: header[i].children[3].children[0].attribs.href,
-    });
-    if (i >= 4) break;
-  }
-  return result;
-};
-
-// function parserHtmlSyros(dataNews, dataEvents) {
 module.exports.syros = function (dataNews) {
   const resulNews = [];
   const $cn = cheerio.load(dataNews);
@@ -72,19 +56,5 @@ module.exports.syros = function (dataNews) {
     });
     if (i >= 4) break;
   }
-  /*
-  const resulEvents = [];
-  const $ce = cheerio.load(dataEvents);
-  const divEvents = $ce("div[class='media-body']");
-  for (let i = 0; i < divEvents.length; i += 1) {
-    resulEvents.push({
-      date: divEvents[i].children[1].children[0].data,
-      title: divEvents[i].children[4].children[0].children[0].data.trim(),
-      url: divEvents[i].children[4].children[0].attribs.href,
-    });
-    if (i >= 4) break;
-  }
-  */
-  // return { news: resulNews, events: resulEvents };
   return resulNews;
 };

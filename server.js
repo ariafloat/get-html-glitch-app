@@ -18,8 +18,7 @@ app.get('/', (request, response) => {
 app.get('/dreams', (request, response) => {
   let urls = null;
   try {
-    // urls = [decodeURIComponent(request.query.url1), decodeURIComponent(request.query.url2), decodeURIComponent(request.query.url3), decodeURIComponent(request.query.url4), decodeURIComponent(request.query.url5)];
-    urls = [decodeURIComponent(request.query.url1), decodeURIComponent(request.query.url2), decodeURIComponent(request.query.url3), decodeURIComponent(request.query.url4)];
+    urls = [decodeURIComponent(request.query.url1), decodeURIComponent(request.query.url2), decodeURIComponent(request.query.url3)];
   } catch (err) {
     console.error(err);
     response.send(err);
@@ -27,8 +26,7 @@ app.get('/dreams', (request, response) => {
   }
   Promise.all(urls.map(url => fetch(url).then(resp => resp.text())))
     .then((texts) => {
-      // response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3], url5: texts[4] }));
-      response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2], url4: texts[3] }));
+      response.json(JSON.stringify({ url1: texts[0], url2: texts[1], url3: texts[2] }));
     }).catch((err) => {
       console.error(err);
       response.send(err);
@@ -36,15 +34,14 @@ app.get('/dreams', (request, response) => {
 });
 
 app.get('/dreams-gogo', (request, response) => {
-  let urls = ['https://www.raqualia.co.jp/', 'http://askat-inc.com/japanese/news/', 'http://www.aratana.com/news/', 'https://ir.syros.com/press-releases'];
+  let urls = ['https://www.raqualia.co.jp/', 'http://askat-inc.com/japanese/news/', 'https://ir.syros.com/press-releases'];
   Promise.all(urls.map(url => fetch(url).then(resp => resp.text())))
     .then((texts) => {
       const raqualiaPromise = parserHtml.raqualia(texts[0]);
       raqualiaPromise.then((raqualia) => {
         const askat = parserHtml.askat(texts[1]);
-        const aratana = parserHtml.aratana(texts[2]);
-        const syros = parserHtml.syros(texts[3]);
-        response.json(JSON.stringify({ raqualia, askat, aratana, syros }));
+        const syros = parserHtml.syros(texts[2]);
+        response.json(JSON.stringify({ raqualia, askat, syros }));
       }).catch(console.error);
     }).catch((err) => {
       console.error(err);
